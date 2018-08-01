@@ -1,0 +1,16 @@
+{
+  "name": "nuber-server",
+  "version": "1.0.0",
+  "description": "Server for the (N)uber Clone. GraphQL, Typescript, NodeJS",
+  "main": "index.js",
+  "repository": "https://github.com/yoojat/nuber-server",
+  "author": "yoojat <yooja.ty@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.5.5",
+    "nodemon": "^1.18.3",
+    "ts-node": "^7.0.0",
+    "tslint-config-prettier": "^1.14.0",
+    "typescript": "^3.0.1"
+  }
+}
