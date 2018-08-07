@@ -7,11 +7,13 @@
   "author": "yoojat <yooja.ty@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/bcrypt": "^2.0.0",
     "@types/cors": "^2.8.4",
     "@types/helmet": "^0.0.38",
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.5.5",
     "babel-runtime": "^6.26.0",
+    "dotenv": "^6.0.0",
     "gql-merge": "^0.0.6",
     "graphql-to-typescript": "^0.1.2",
     "nodemon": "^1.18.3",
@@ -25,8 +27,8 @@
     "types": "graphql-to-typescript ./src/schema.graphql ./src/types/graph.d.ts"
   },
   "dependencies": {
+    "class-validator": "^0.9.1",
     "cors": "^2.8.4",
-    "dotenv": "^6.0.0",
     "graphql-tools": "^3.1.1",
     "graphql-yoga": "^1.15.1",
     "helmet": "^3.13.0",
