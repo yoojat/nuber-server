@@ -1,16 +1,21 @@
+import bcrypt from "bcrypt-nodejs";
 import { IsEmail } from "class-validator";
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn
 } from "typeorm";
+const BCRYPT_ROUNDS = 10;
 
 @Entity()
 class User extends BaseEntity {
-  @PrimaryGeneratedColumn() id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column({ type: "text", unique: true })
   @IsEmail()
@@ -58,13 +63,35 @@ class User extends BaseEntity {
   @Column({ type: "double precision", default: 0 })
   lastOrientation: number;
 
+  @CreateDateColumn()
+  createdAt: string;
+
+  @UpdateDateColumn()
+  updatedAt: string;
+
   get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
   }
 
-  @CreateDateColumn() createdAt: string;
+  @BeforeInsert()
+  @BeforeUpdate()
+  async savePassword(): Promise<void> {
+    if (this.password) {
+      const hashedPassword = await this.hashPassword(this.password);
+      this.password = hashedPassword;
+    }
+  }
 
-  @UpdateDateColumn() updatedAt: string;
+  private hashPassword(password: string): Promise<string> {
+    const salt = bcrypt.genSaltSync(BCRYPT_ROUNDS);
+    return new Promise(function(resolve, reject) {
+      const hashedPassword = bcrypt.hashSync(password, salt);
+      if (hashedPassword) {
+        resolve(hashedPassword);
+      }
+      reject(new Error("Hashed Failed"));
+    });
+  }
 }
 
 export default User;
