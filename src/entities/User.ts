@@ -73,6 +73,18 @@ class User extends BaseEntity {
     return `${this.firstName} ${this.lastName}`;
   }
 
+  public comparePassword(
+    password: string,
+    hashString: string
+  ): Promise<boolean> {
+    return new Promise(function(resolve, reject) {
+      const result = bcrypt.compareSync(password, hashString);
+      resolve(result);
+    });
+  }
+  //password는 사용자가 우리한테 넘겨준 기본 평문 password
+  //hashString은 우리가 이전에 암호화한 password(this.password)에 저장해둔 password
+
   @BeforeInsert()
   @BeforeUpdate()
   async savePassword(): Promise<void> {
