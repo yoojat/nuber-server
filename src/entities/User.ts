@@ -98,12 +98,10 @@ class User extends BaseEntity {
     return `${this.firstName} ${this.lastName}`;
   }
 
-  public comparePassword(
-    password: string,
-    hashString: string
-  ): Promise<boolean> {
+  public comparePassword(password: string): Promise<boolean> {
+    const userPassword = this.password;
     return new Promise(function(resolve, reject) {
-      const result = bcrypt.compareSync(password, hashString);
+      const result = bcrypt.compareSync(password, userPassword);
       resolve(result);
     });
   }
