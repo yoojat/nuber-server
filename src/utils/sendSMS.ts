@@ -11,6 +11,6 @@ const sendSMS = (to: string, body: string) => {
   });
 };
 
-// sendSMS함ㅅ를 이용하여 정해진 내용을 user에게 보내는 함수
+// sendSMS함수를 이용하여 정해진 내용을 user에게 보내는 함수
 export const sendVerificationSMS = (to: string, key: string) =>
   sendSMS(to, `Your verification key is: ${key}`);
