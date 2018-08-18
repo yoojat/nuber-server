@@ -4,6 +4,7 @@ import {
   EmailSignUpResponse
 } from "../../../types/graph";
 import User from "../../../entities/User";
+import createJWT from "../../../utils/createJWT";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -25,10 +26,11 @@ const resolvers: Resolvers = {
         } else {
           // 해당 계정이 없으면 새로 생성
           const newUser = await User.create({ ...args }).save();
+          const token = createJWT(newUser.id);
           return {
             ok: true,
             error: null,
-            token: "Coming soons"
+            token
           };
         }
       } catch (error) {
