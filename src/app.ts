@@ -1,4 +1,5 @@
 import cors from "cors";
+import { NextFunction, Response } from "express";
 import { GraphQLServer } from "graphql-yoga";
 import helmet from "helmet";
 import logger from "morgan";
@@ -9,7 +10,12 @@ class App {
   public app: GraphQLServer;
   constructor() {
     this.app = new GraphQLServer({
-      schema
+      schema,
+      context: req => {
+        return {
+          req: req.request
+        };
+      }
     });
     this.middlewares();
   }
@@ -22,11 +28,20 @@ class App {
   };
 
   //request headers로 부터 jwt를 받음
-  private jwt = async (req, res, next): Promise<void> => {
+  //jwt 미들웨어
+  private jwt = async (
+    req,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> => {
     const token = req.get("X-JWT"); //X-JWT는 본인 마음대로 지으면 됨
     if (token) {
       const user = await decodeJWT(token);
-      console.log(user);
+      if (user) {
+        req.user = user;
+      } else {
+        req.user = undefined;
+      }
     }
     next();
   };
