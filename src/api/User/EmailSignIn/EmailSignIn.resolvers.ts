@@ -34,7 +34,7 @@ const resolvers: Resolvers = {
         } else {
           return {
             ok: false,
-            error: "wron password",
+            error: "wrong password",
             token: null
           };
         }
