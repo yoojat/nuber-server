@@ -5,6 +5,7 @@ import {
 } from "../../../types/graph";
 import User from "../../../entities/User";
 import createJWT from "../../../utils/createJWT";
+import Verification from "../../../entities/Verification";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -26,6 +27,16 @@ const resolvers: Resolvers = {
         } else {
           // 해당 계정이 없으면 새로 생성
           const newUser = await User.create({ ...args }).save();
+          if (newUser.email) {
+            //만약 mailgun 유료 계정을 사용하면다면 이 이메일주소인자로 주고 통해 보낼 수 있다
+            //sendEmail(newUser.email, , ..)
+            const emailVerification = await Verification.create({
+              payload: newUser.email,
+              target: "EMAIL"
+            });
+            //아직 인증되지 않은 verification 생성
+          }
+
           const token = createJWT(newUser.id);
           return {
             ok: true,
