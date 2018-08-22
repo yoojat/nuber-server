@@ -132,6 +132,15 @@ type StartPhoneVerificationResponse {
   error: String
 }
 
+type ToggleDrivingModeResponse {
+  ok: Boolean!
+  error: String
+}
+
+type Mutaiton {
+  ToggleDrivingMode: ToggleDrivingModeResponse!
+}
+
 type UpdateMyProfileResponse {
   ok: Boolean!
   error: String
