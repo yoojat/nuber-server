@@ -15,7 +15,7 @@ const resolvers: Resolvers = {
         { req }
       ): Promise<UpdateMyProfileResponse> => {
         const user: User = req.user;
-        const notNull = {};
+        const notNull: any = {}; // 👈🏻 Add ':any'
 
         Object.keys(args).forEach(key => {
           if (args[key] !== null) {
@@ -27,11 +27,13 @@ const resolvers: Resolvers = {
         //결론적으로 notNull에는 null인 값을 가진게 없다
         //null을 가진 것들은 제외 함
 
+        if (notNull.password !== null) {
+          // 👈🏻 Change from args to notNull
+          user.password = notNull.password;
+          user.save();
+          delete notNull.password; //<--  ⚠️⚠️⚠️ Delete password  from notNull or is going to be saved again without encoding ⚠️⚠️⚠️
+        }
         try {
-          if (args.password !== null) {
-            user.password = args.password;
-            user.save();
-          }
           //@BeforeUpdate()구문을 실행하기 위해
           await User.update({ id: user.id }, { ...notNull });
           //update는 두가지 조건이 필요함
