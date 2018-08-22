@@ -5,6 +5,7 @@ import {
 } from "../../../types/graph";
 import { Resolvers } from "../../../types/resolver";
 import privateResolver from "../../../utils/privateResolver";
+import cleanNullArgs from "../../../utils/cleanNullArgs";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -15,13 +16,13 @@ const resolvers: Resolvers = {
         { req }
       ): Promise<UpdateMyProfileResponse> => {
         const user: User = req.user;
-        const notNull: any = {}; // 👈🏻 Add ':any'
+        const notNull: any = cleanNullArgs(args); // 👈🏻 Add ':any'
 
-        Object.keys(args).forEach(key => {
-          if (args[key] !== null) {
-            notNull[key] = args[key];
-          }
-        });
+        // Object.keys(args).forEach(key => {
+        //   if (args[key] !== null) {
+        //     notNull[key] = args[key];
+        //   }
+        // });
         //args에서 키를 가지고 오고 각 키에 해당되는 값이 null인지 검사하고
         //null이 아니면 notNull에 키와 함께 값을 집어넣는다
         //결론적으로 notNull에는 null인 값을 가진게 없다

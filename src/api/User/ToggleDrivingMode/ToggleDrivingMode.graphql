@@ -3,6 +3,6 @@ type ToggleDrivingModeResponse {
   error: String
 }
 
-type Mutaiton {
+type Mutation {
   ToggleDrivingMode: ToggleDrivingModeResponse!
 }
