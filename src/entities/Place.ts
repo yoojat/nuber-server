@@ -29,6 +29,9 @@ class Place extends BaseEntity {
   @Column({ type: "boolean", default: false })
   isFav: boolean;
 
+  @Column({ nullable: true })
+  userId: number; //이렇게 하면 user의 id가 자동적으로 넣어짐
+
   @ManyToOne(type => User, user => user.places)
   user: User;
 
