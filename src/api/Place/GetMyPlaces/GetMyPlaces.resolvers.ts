@@ -13,6 +13,7 @@ const resolvers: Resolvers = {
             { relations: ["places"] }
           );
           if (user) {
+            // 유저를 못찾을 경우를 대비
             return {
               ok: true,
               places: user.places,
