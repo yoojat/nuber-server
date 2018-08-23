@@ -23,6 +23,7 @@ const resolvers: Resolvers = {
               //권한이 있는지 확인
               const notNull = cleanNullArgs(args);
               await Place.update({ id: args.placeId }, { ...notNull });
+
               return {
                 ok: true,
                 error: null
