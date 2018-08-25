@@ -16,9 +16,11 @@ class App {
     this.app = new GraphQLServer({
       schema,
       context: req => {
+        const { connection: { context = null } = {} } = req; //context 기본 값 null, connection기본값도 null
         return {
           req: req.request,
-          pubSub: this.pubSub
+          pubSub: this.pubSub,
+          context
         };
       }
     });
