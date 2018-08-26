@@ -15,7 +15,7 @@ const resolvers = {
           const user: User = context.currentUser;
           //currentUser는 listening하고 있는 사용자(driver)
           const {
-            NearbyRdieSubscription: { pickUpLat, pickUpLng }
+            NearbyRideSubscription: { pickUpLat, pickUpLng }
           } = payload;
           const { lastLat: userLastLat, lastLng: userLastLng } = user; //여기서 user는 driver
 
