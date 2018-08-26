@@ -10,8 +10,11 @@ type Ride {
   price: Float!
   distance: String!
   duration: String!
+  driverId: Int
   driver: User!
+  passnegerId: Int!
   passenger: User!
   createdAt: String!
   updatedAt: String
 }
+# passenger는 필수지만 driver는 없을 때도 있음

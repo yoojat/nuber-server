@@ -17,7 +17,7 @@ class Ride extends BaseEntity {
   @Column({
     type: "text",
     enum: ["ACCEPTED", "FINISHED", "CANCELED", "REQUESTING", "ONROUTE"],
-    default: "ACCEPTED"
+    default: "REQUESTING"
   })
   status: rideStatus;
 
@@ -48,9 +48,19 @@ class Ride extends BaseEntity {
   @Column({ type: "text" })
   duration: string;
 
+  @Column({ nullable: true })
+  passengerId: number;
+  //typeorm이 자동으로 데이터베이스를 보지도 않고 반환해줌
+  //전체 객체를 찾아서 보여줄 필요가 없음
+
   //승객은 항상있음
   @ManyToOne(type => User, user => user.ridesAsPassenger)
   passenger: User;
+
+  @Column({ nullable: true })
+  driverId: number;
+  //typeorm이 자동으로 데이터베이스를 보지도 않고 반환해줌
+  //전체 객체를 찾아서 보여줄 필요가 없음
 
   //nullable이 true인 이유는 ride를 요청할때는 아직 드라이버가 할당되지 않았기 상태이기 떄문
   @ManyToOne(type => User, user => user.ridesAsDriver, { nullable: true })
