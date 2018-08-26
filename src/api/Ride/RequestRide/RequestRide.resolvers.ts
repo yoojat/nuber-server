@@ -13,11 +13,13 @@ const resolvers: Resolvers = {
       async (
         _,
         args: RequestRideMutationArgs,
-        { req }
+        { req, pubSub }
       ): Promise<RequestRideResponse> => {
         const user: User = req.user;
         try {
           const ride = await Ride.create({ ...args, passenger: user }).save();
+          pubSub.publish("rideRequest", { NearbyRideSubscription: ride });
+          //payload의 이름은 subscription의 이름과 같아야됨
           return {
             ok: true,
             error: null,
