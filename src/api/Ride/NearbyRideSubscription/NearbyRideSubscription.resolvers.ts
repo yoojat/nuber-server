@@ -2,8 +2,8 @@ import { withFilter } from "graphql-yoga";
 import User from "../../../entities/User";
 
 const resolvers = {
-  Subscriptions: {
-    NearbyRdieSubscription: {
+  Subscription: {
+    NearbyRideSubscription: {
       subscribe: withFilter(
         (_, __, { pubSub }) => {
           return pubSub.asyncIterator("riedRequest");
