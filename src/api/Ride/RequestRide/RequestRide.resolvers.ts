@@ -16,19 +16,30 @@ const resolvers: Resolvers = {
         { req, pubSub }
       ): Promise<RequestRideResponse> => {
         const user: User = req.user;
-        try {
-          const ride = await Ride.create({ ...args, passenger: user }).save();
-          pubSub.publish("rideRequest", { NearbyRideSubscription: ride });
-          //payload의 이름은 subscription의 이름과 같아야됨
-          return {
-            ok: true,
-            error: null,
-            ride
-          };
-        } catch (error) {
+        if (!user.isRiding) {
+          //유저가 riding이 아닐때만 요청할 수 있음
+          try {
+            const ride = await Ride.create({ ...args, passenger: user }).save();
+            pubSub.publish("rideRequest", { NearbyRideSubscription: ride });
+            user.isRiding = true;
+            user.save();
+            //payload의 이름은 subscription의 이름과 같아야됨
+            return {
+              ok: true,
+              error: null,
+              ride
+            };
+          } catch (error) {
+            return {
+              ok: false,
+              error: error.message,
+              ride: null
+            };
+          }
+        } else {
           return {
             ok: false,
-            error: error.message,
+            error: "You can't request tow rides",
             ride: null
           };
         }
