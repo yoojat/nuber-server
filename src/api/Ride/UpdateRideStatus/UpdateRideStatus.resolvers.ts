@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
       async (
         _,
         args: UpdateRideStatusMutationArgs,
-        { req }
+        { req, pubSub }
       ): Promise<UpdateRideStatusResponse> => {
         const user: User = req.user;
 
@@ -45,10 +45,11 @@ const resolvers: Resolvers = {
               });
             }
 
-            //여기서부터 ride 저장 로직
+            //여기서부터 ride 업데이트 로직
             if (ride) {
               ride.status = args.status;
               ride.save();
+              pubSub.publish("rideUpdate", { RideStatusSubscription: ride });
               return {
                 ok: true,
                 error: null

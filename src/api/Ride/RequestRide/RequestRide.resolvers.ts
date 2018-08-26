@@ -7,6 +7,7 @@ import {
 import { Resolvers } from "../../../types/resolver";
 import privateResolver from "../../../utils/privateResolver";
 
+//유저가 사용하는 곳
 const resolvers: Resolvers = {
   Mutation: {
     RequestRide: privateResolver(
