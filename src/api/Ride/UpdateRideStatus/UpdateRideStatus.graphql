@@ -1,0 +1,22 @@
+type UpdateRideStatusResponse {
+  ok: Boolean!
+  error: String
+}
+
+enum StatusOptions {
+  ACCEPTED
+  FINISHED
+  CANCELED
+  REQUESTING
+  ONROUTE
+}
+# StatusOptions에 있는 것들만 사용할수 있음
+# enum 으로 정의하여 인자를 제한 할수 있습니다.
+# enum에 해당되는 값이 안들오면 실행이 안되게할수 있습니다.
+
+type Mutation {
+  UpdateRideStatus(
+    rideId: Int!
+    status: StatusOptions!
+  ): UpdateRideStatusResponse!
+}

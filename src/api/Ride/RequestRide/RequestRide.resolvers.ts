@@ -21,7 +21,7 @@ const resolvers: Resolvers = {
           try {
             const ride = await Ride.create({ ...args, passenger: user }).save();
             pubSub.publish("rideRequest", { NearbyRideSubscription: ride });
-            user.isRiding = true;
+            user.isRiding = true; // ride를 요청하자마자 isRiding은 true로 변경
             user.save();
             //payload의 이름은 subscription의 이름과 같아야됨
             return {
