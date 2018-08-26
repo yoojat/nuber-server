@@ -3,12 +3,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  OneToOne
 } from "typeorm";
 import { rideStatus } from "../types/types";
 import User from "./User";
+import Chat from "./Chat";
 @Entity()
 class Ride extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -65,6 +68,15 @@ class Ride extends BaseEntity {
   //nullable이 true인 이유는 ride를 요청할때는 아직 드라이버가 할당되지 않았기 상태이기 떄문
   @ManyToOne(type => User, user => user.ridesAsDriver, { nullable: true })
   driver: User;
+
+  @Column({ nullable: true })
+  chatId: number;
+  //typeorm이 자동으로 데이터베이스를 보지도 않고 반환해줌
+  //전체 객체를 찾아서 보여줄 필요가 없음
+
+  @OneToOne(type => Chat, chat => chat.ride, { nullable: true })
+  @JoinColumn()
+  chat: Chat;
 
   @CreateDateColumn()
   createdAt: string;

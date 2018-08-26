@@ -17,7 +17,9 @@ const resolvers: Resolvers = {
         { req, pubSub }
       ): Promise<RequestRideResponse> => {
         const user: User = req.user;
-        if (!user.isRiding) {
+        user.isRiding = false;
+        user.save();
+        if (!user.isRiding && !user.isDriving) {
           //유저가 riding이 아닐때만 요청할 수 있음
           try {
             const ride = await Ride.create({ ...args, passenger: user }).save();
@@ -40,7 +42,7 @@ const resolvers: Resolvers = {
         } else {
           return {
             ok: false,
-            error: "You can't request tow rides",
+            error: "You can't request tow rides or driver and request",
             ride: null
           };
         }

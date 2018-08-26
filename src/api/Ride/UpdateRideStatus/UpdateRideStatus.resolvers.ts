@@ -39,10 +39,12 @@ const resolvers: Resolvers = {
                 ride.driver = user;
                 user.isTaken = true;
                 user.save();
-                await Chat.create({
+                const chat = await Chat.create({
                   driver: user,
                   passenger: ride.passenger
                 }).save();
+                ride.chat = chat;
+                ride.save();
                 // driver는 ride를 수락한 유저로, passenger는 ride에 함께 전달된 passenger로
               }
             } else {
