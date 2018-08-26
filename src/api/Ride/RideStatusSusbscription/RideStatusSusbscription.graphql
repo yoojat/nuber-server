@@ -1,3 +1,4 @@
 type Subscription {
   RideStatusSubscription: Ride
+  # RideStatusSubscription(rideId!): Ride 이런식으로 인자를 받는 것도 가능함
 }
