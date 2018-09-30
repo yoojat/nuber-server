@@ -22,7 +22,7 @@ const resolvers: Resolvers = {
               status: "REQUESTING",
               pickUpLat: Between(lastLat - 0.05, lastLat + 0.05), //user 마지막 위치의 0.05의 반경의 driver를 찾음
               pickUpLng: Between(lastLng - 0.05, lastLng - 0.05)
-            });
+            }, {relations:["passenger"]});
             if (ride) {
               return {
                 ok: true,
